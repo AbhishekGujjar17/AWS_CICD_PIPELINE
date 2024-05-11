@@ -1,5 +1,5 @@
 # DevOps CI/CD Deployment Pipeline with AWS and Terraform
-
+![img1.png](img1.png)
 This project implements a full deployment pipeline on AWS using various services such as CodeCommit, CodeBuild, CodePipeline, ECS (Elastic Container Service), Target Groups, Application Load Balancer (ALB), and ECS Fargate. The pipeline automates the process of deploying code changes to an ECS Fargate cluster.
 
 ## Overview
