@@ -33,3 +33,21 @@ resource "aws_iam_role_policy_attachment" "codepipeline" {
   role       = aws_iam_role.codepipeline.name
   policy_arn = aws_iam_policy.codepipeline.arn
 }
+
+resource "aws_iam_role" "codepipeline_target_rule" {
+  name               = "${local.environment}-${local.project_name}-codepipeline-target-role"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_codepipeline_target.json
+  tags               = local.tags
+}
+
+resource "aws_iam_policy" "codepipeline_target_policy" {
+  name        = "${local.environment}-${local.project_name}-codepipeline-target-policy"
+  description = "Policy used by cloudwatch event target for codepipeline event rule for ${local.project_name} project"
+  policy      = data.aws_iam_policy_document.codepipeline_target.json
+  tags        = local.tags
+}
+
+resource "aws_iam_role_policy_attachment" "codepipeline_target" {
+  role       = aws_iam_role.codepipeline_target_rule.name
+  policy_arn = aws_iam_policy.codepipeline_target_policy.arn
+}

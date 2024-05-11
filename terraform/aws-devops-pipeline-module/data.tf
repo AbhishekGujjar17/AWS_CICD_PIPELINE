@@ -33,7 +33,7 @@ data "aws_iam_policy_document" "codebuild" {
       "codebuild:BatchPutTestCases",
       "codebuild:BatchPutCodeCoverages"
     ]
-    resources = ["arn:aws:codebuild:${local.region}:${local.account_id}:report-group/devops-pipeline-catspic-codebuild-*"]
+    resources = ["arn:aws:codebuild:${local.region}:${local.account_id}:project/${local.environment}-${local.project_name}-codebuild"]
   }
 
   statement {
@@ -63,7 +63,7 @@ data "aws_iam_policy_document" "codebuild" {
     actions = [
       "codecommit:GitPull"
     ]
-    resources = ["arn:aws:codecommit:${local.region}:${local.account_id}:devops-pipeline-catspic-project"]
+    resources = ["arn:aws:codecommit:${local.region}:${local.account_id}:${local.environment}-${local.project_name}-codecommit"]
   }
 
   statement {
@@ -88,8 +88,8 @@ data "aws_iam_policy_document" "codebuild" {
       "logs:PutLogEvents"
     ]
     resources = [
-      "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/devops-pipeline-catspic-codebuild",
-      "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/devops-pipeline-catspic-codebuild:*"
+      "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local.project_name}-codebuild",
+      "arn:aws:logs:${local.region}:${local.account_id}:log-group:/aws/codebuild/${local.project_name}-codebuild:*"
     ]
   }
 }
@@ -102,17 +102,6 @@ data "aws_iam_policy_document" "assume_role_codepipeline" {
     principals {
       type        = "Service"
       identifiers = ["codepipeline.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["events.amazonaws.com"]
     }
 
     actions = ["sts:AssumeRole"]
@@ -147,85 +136,18 @@ data "aws_iam_policy_document" "codepipeline" {
       "codecommit:GetUploadArchiveStatus",
       "codecommit:UploadArchive",
     ]
-    resources = ["*"]
+    resources = ["arn:aws:codecommit:${local.region}:${local.account_id}:${local.environment}-${local.project_name}-codecommit"]
     effect    = "Allow"
   }
 
   statement {
     actions = [
-      "codedeploy:CreateDeployment",
-      "codedeploy:GetApplication",
-      "codedeploy:GetApplicationRevision",
-      "codedeploy:GetDeployment",
-      "codedeploy:GetDeploymentConfig",
-      "codedeploy:RegisterApplicationRevision",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "codestar-connections:UseConnection"
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "elasticbeanstalk:*",
-      "ec2:*",
-      "elasticloadbalancing:*",
-      "autoscaling:*",
-      "cloudwatch:*",
-      "s3:*",
-      "sns:*",
-      "cloudformation:*",
-      "rds:*",
-      "sqs:*",
       "ecs:*",
+      "s3:*"
     ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions   = ["lambda:InvokeFunction", "lambda:ListFunctions"]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "opsworks:CreateDeployment",
-      "opsworks:DescribeApps",
-      "opsworks:DescribeCommands",
-      "opsworks:DescribeDeployments",
-      "opsworks:DescribeInstances",
-      "opsworks:DescribeStacks",
-      "opsworks:UpdateApp",
-      "opsworks:UpdateStack",
+    resources = [
+      "*"
     ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "cloudformation:CreateStack",
-      "cloudformation:DeleteStack",
-      "cloudformation:DescribeStacks",
-      "cloudformation:UpdateStack",
-      "cloudformation:CreateChangeSet",
-      "cloudformation:DeleteChangeSet",
-      "cloudformation:DescribeChangeSet",
-      "cloudformation:ExecuteChangeSet",
-      "cloudformation:SetStackPolicy",
-      "cloudformation:ValidateTemplate",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
   }
 
   statement {
@@ -235,40 +157,7 @@ data "aws_iam_policy_document" "codepipeline" {
       "codebuild:BatchGetBuildBatches",
       "codebuild:StartBuildBatch",
     ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "devicefarm:ListProjects",
-      "devicefarm:ListDevicePools",
-      "devicefarm:GetRun",
-      "devicefarm:GetUpload",
-      "devicefarm:CreateUpload",
-      "devicefarm:ScheduleRun",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "servicecatalog:ListProvisioningArtifacts",
-      "servicecatalog:CreateProvisioningArtifact",
-      "servicecatalog:DescribeProvisioningArtifact",
-      "servicecatalog:DeleteProvisioningArtifact",
-      "servicecatalog:UpdateProduct",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
-
-  statement {
-    actions = [
-      "cloudformation:ValidateTemplate"
-    ]
-    resources = ["*"]
+    resources = ["arn:aws:codebuild:${local.region}:${local.account_id}:project/${local.environment}-${local.project_name}-codebuild"]
     effect    = "Allow"
   }
 
@@ -279,32 +168,28 @@ data "aws_iam_policy_document" "codepipeline" {
     resources = ["*"]
     effect    = "Allow"
   }
+}
 
+//codepipeline target
+data "aws_iam_policy_document" "assume_role_codepipeline_target" {
   statement {
-    actions = [
-      "states:DescribeExecution",
-      "states:DescribeStateMachine",
-      "states:StartExecution",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
+    effect = "Allow"
 
-  statement {
-    actions = [
-      "appconfig:StartDeployment",
-      "appconfig:StopDeployment",
-      "appconfig:GetDeployment",
-    ]
-    resources = ["*"]
-    effect    = "Allow"
-  }
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
 
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+data "aws_iam_policy_document" "codepipeline_target" {
   statement {
     actions = [
       "codepipeline:StartPipelineExecution"
     ]
-    resources = [aws_codepipeline.codepipeline.arn]
+    resources = ["arn:aws:codepipeline:${local.region}:${local.account_id}:${local.environment}-${local.project_name}-codepipeline"]
     effect    = "Allow"
   }
 }

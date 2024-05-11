@@ -10,7 +10,7 @@ resource "aws_ecs_task_definition" "task_definition" {
   cpu                      = 512
   memory                   = 1024
   execution_role_arn       = "arn:aws:iam::${local.account_id}:role/ecsTaskExecutionRole"
-  task_role_arn            = "arn:aws:iam::${local.region}:role/ecsTaskExecutionRole"
+  task_role_arn            = "arn:aws:iam::${local.account_id}:role/ecsTaskExecutionRole"
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
