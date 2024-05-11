@@ -40,10 +40,10 @@ The deployment pipeline consists of the following stages:
 
 6. **Run the Pipeline**: Trigger the pipeline either manually or by committing changes to your CodeCommit repository. The pipeline will automatically build and deploy your application to ECS Fargate.
 
-## Contributors
-
-- [Your Name](https://github.com/your-account) - Project Lead
-
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Questions?
+
+For any query email me at agujjar@mun.ca
