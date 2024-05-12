@@ -4,23 +4,36 @@ This project implements a full deployment devops pipeline on AWS using various s
 
 ## Overview
 
-The deployment pipeline consists of the following stages:
+The deployment pipeline is comprised of the following stages:
 
 1. **CodeCommit**: Developers push code changes to a CodeCommit repository.
-2. **CodeBuild**: CodeBuild automatically clones the repository, creates a container image, and stores it in Amazon ECR (Elastic Container Registry).
+
+2. **CodeBuild**: CodeBuild automatically pulls the latest changes from the CodeCommit repository, builds a container image, and stores it in Amazon ECR (Elastic Container Registry).
+
 3. **CodePipeline**: CodePipeline orchestrates the workflow, triggering builds on commit and deploying the application.
-4. **ECS Cluster Creation**: CodeDeploy creates an ECS Cluster to manage the deployment.
-5. **Target Groups and ALB**: Target Groups and Application Load Balancer are provisioned to manage traffic to the ECS Fargate tasks.
+
+4. **ECS Cluster Creation**: CodePipeline, through the CodeDeploy stage, creates an ECS Cluster to manage the deployment.
+
+5. **Target Groups and ALB**: Target Groups and an Application Load Balancer are provisioned to manage traffic to the ECS Fargate tasks.
+
 6. **Deployment to ECS Fargate**: CodePipeline deploys the containerized application to ECS Fargate.
+
 
 ## Setup Instructions
 
 ### Prerequisites
 
-1. **AWS Account**: Ensure you have an AWS account with the necessary permissions to create and manage resources.
-2. **CodeCommit Repository**: Create a CodeCommit repository to store your application code.
-3. **IAM Roles**: Set up IAM roles with appropriate permissions for CodeBuild, CodeDeploy, and CodePipeline.
-4. **ECS Cluster**: Optionally, you can pre-create an ECS cluster, or it will be created as part of the deployment pipeline.
+1. **AWS Account**: You need an AWS account with appropriate permissions to create and manage resources. Make sure you have configured your AWS credentials locally.
+
+2. **Terraform Installed**: Ensure Terraform is installed on your machine, and you can successfully run Terraform commands.
+
+3. **CodeCommit Credentials**: You'll need IAM user credentials with permissions to push code to CodeCommit repositories. 
+   - If you don't have an IAM user, create one. 
+   - Access the IAM service console, navigate to "Users," select the desired user, and choose "Security credentials." 
+   - Scroll down and click "Generate credentials" under the Git credentials section. 
+   - These credentials will be required when you clone the repository from CodeCommit.
+
+
 
 ### Deployment Steps
 
@@ -38,9 +51,9 @@ The deployment pipeline consists of the following stages:
 
 3. After you have successfully deployed the module, you may encounter errors in CodePipeline and ECS service when registering targets. Don't worry about these errors; they occur because your code hasn't been deployed yet. 
 
-- Go to the CodeCommit repository that you just deployed using the module.
-- Clone that repository, make your changes, and push them.
-- This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating the need for manual intervention.
+    - Go to the CodeCommit repository that you just deployed using the module.
+    - Clone that repository, make your changes, and push them.
+    - This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating       the need for manual intervention.
 
 
 ## Questions?
