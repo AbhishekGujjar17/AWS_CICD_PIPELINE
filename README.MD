@@ -57,6 +57,7 @@ The deployment pipeline is comprised of the following stages:
     - This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating       the need for manual intervention.
 
 4. Once you've completed step 3 and utilized the code files available in this repository, such as the `index.html`, `Dockerfile`, and `buildspec.yml`, you can access the website by using the DNS of the ALB (Application Load Balancer). The website will appear as follows:
+![img.png](website.png)
 
 5. If you've created this project solely for learning purposes and wish to avoid any further costs on your AWS account, please execute the following Terraform command to destroy all the resources created using the module:
 ```terraform
