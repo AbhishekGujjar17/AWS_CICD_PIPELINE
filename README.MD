@@ -58,7 +58,7 @@ The deployment pipeline is comprised of the following stages:
 
 5. If you've created this project solely for learning purposes and wish to avoid any further costs on your AWS account, please execute the following Terraform command to destroy all the resources created using the module:
 ```terraform
-terraform destroy
+   terraform destroy
 ```
 
 
