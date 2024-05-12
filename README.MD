@@ -29,7 +29,9 @@ The deployment pipeline is comprised of the following stages:
 3. **CodeCommit Credentials**: You'll need IAM user credentials with permissions to push code to CodeCommit repositories. 
    - If you don't have an IAM user, create one. 
    - Access the IAM service console, navigate to "Users," select the desired user, and choose "Security credentials." 
+   ![img.png](iam.png)
    - Scroll down and click "Generate credentials" under the Git credentials section. 
+   ![img_1.png](credentials.png)
    - These credentials will be required when you clone the repository from CodeCommit.
 
 
