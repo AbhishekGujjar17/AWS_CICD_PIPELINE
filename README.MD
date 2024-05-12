@@ -1,5 +1,6 @@
 # DevOps CI/CD Deployment Pipeline with AWS and Terraform
 ![img1.png](img1.png)
+
 This project implements a full deployment devops pipeline on AWS using various services such as CodeCommit, CodeBuild, CodeDeploy, CodePipeline, ECS (Elastic Container Service), ECR, Target Groups, Application Load Balancer (ALB), and ECS Fargate. The pipeline automates the process of deploying code changes to an ECS Fargate cluster with a CI/CD pipeline.
 
 ## Overview
@@ -12,11 +13,9 @@ The deployment pipeline is comprised of the following stages:
 
 3. **CodePipeline**: CodePipeline orchestrates the workflow, triggering builds on commit and deploying the application.
 
-4. **ECS Cluster Creation**: CodePipeline, through the CodeDeploy stage, creates an ECS Cluster to manage the deployment.
+4. **ECS Cluster Creation**: CodePipeline, through the CodeDeploy stage, deploy the changes to the container running within specified ECS Cluster.
 
 5. **Target Groups and ALB**: Target Groups and an Application Load Balancer are provisioned to manage traffic to the ECS Fargate tasks.
-
-6. **Deployment to ECS Fargate**: CodePipeline deploys the containerized application to ECS Fargate.
 
 
 ## Setup Instructions
@@ -54,6 +53,18 @@ The deployment pipeline is comprised of the following stages:
     - Go to the CodeCommit repository that you just deployed using the module.
     - Clone that repository, make your changes, and push them.
     - This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating       the need for manual intervention.
+
+4. Once you've completed step 3 and utilized the code files available in this repository, such as the `index.html`, `Dockerfile`, and `buildspec.yml`, you can access the website by using the DNS of the ALB (Application Load Balancer). The website will appear as follows:
+
+5. If you've created this project solely for learning purposes and wish to avoid any further costs on your AWS account, please execute the following Terraform command to destroy all the resources created using the module:
+```terraform
+terraform destroy
+
+
+## Notes:
+- This project is highly customizable to suit your specific project requirements. For instance, you can easily replace steps within the CodePipeline or integrate GitHub instead of CodeCommit, among other possibilities.
+
+- Currently, the project utilizes public subnets and may grant broader permissions to resources than strictly necessary. Depending on your project's needs or if deploying internally within an organization, consider deploying only to private subnets and tightening permissions accordingly.
 
 
 ## Questions?
