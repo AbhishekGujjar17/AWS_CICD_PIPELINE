@@ -36,10 +36,12 @@ The deployment pipeline consists of the following stages:
    terraform plan
    terraform apply
 
-3. After you have successfully deployed the module, you may encounter errors in CodePipeline and ECS service when registering targets. Don't worry about these errors; they occur because your code hasn't been deployed yet.
-Go to the CodeCommit repository that you just deployed using the module.
-Clone that repository, make your changes, and push them.
-This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating the need for manual intervention.
+3. After you have successfully deployed the module, you may encounter errors in CodePipeline and ECS service when registering targets. Don't worry about these errors; they occur because your code hasn't been deployed yet. 
+
+- Go to the CodeCommit repository that you just deployed using the module.
+- Clone that repository, make your changes, and push them.
+- This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating the need for manual intervention.
+
 
 ## Questions?
 
