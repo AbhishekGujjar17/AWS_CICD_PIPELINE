@@ -1,6 +1,6 @@
 # DevOps CI/CD Deployment Pipeline with AWS and Terraform
 ![img1.png](img1.png)
-This project implements a full deployment pipeline on AWS using various services such as CodeCommit, CodeBuild, CodePipeline, ECS (Elastic Container Service), Target Groups, Application Load Balancer (ALB), and ECS Fargate. The pipeline automates the process of deploying code changes to an ECS Fargate cluster.
+This project implements a full deployment devops pipeline on AWS using various services such as CodeCommit, CodeBuild, CodeDeploy, CodePipeline, ECS (Elastic Container Service), ECR, Target Groups, Application Load Balancer (ALB), and ECS Fargate. The pipeline automates the process of deploying code changes to an ECS Fargate cluster with a CI/CD pipeline.
 
 ## Overview
 
@@ -27,23 +27,24 @@ The deployment pipeline consists of the following stages:
 1. **Clone the Repository**: Clone this repository to your local machine.
 
     ```bash
-    git clone https://github.com/your-repo/aws-devops-cicd-pipeline.git
+    git clone https://github.com/AbhishekGujjar17/AWS_CICD_PIPELINE.git
     ```
 
-2. **Configure CodeBuild**: Update the `buildspec.yml` file to define the build steps required for your application.
+2. Then make sure you are in the `terraform` directory and open the `main.tf` file. Replace the `vpc_id` variable with the ID of your VPC, and then run the following Terraform commands one by one:
+   ```bash
+   terraform init
+   terraform plan
+   terraform apply
 
-3. **Create the Deployment Pipeline**: Create a new CodePipeline in the AWS Management Console. Configure the source as your CodeCommit repository, and set up the build and deploy stages.
-
-4. **Configure ECS Cluster**: If not pre-created, configure the ECS cluster as per your requirements. Ensure it has necessary security groups, IAM roles, and other configurations.
-
-5. **Set Up Target Groups and ALB**: Configure the Application Load Balancer with appropriate listeners and rules. Create Target Groups for routing traffic to ECS Fargate tasks.
-
-6. **Run the Pipeline**: Trigger the pipeline either manually or by committing changes to your CodeCommit repository. The pipeline will automatically build and deploy your application to ECS Fargate.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+3. After you have successfully deployed the module, you may encounter errors in CodePipeline and ECS service when registering targets. Don't worry about these errors; they occur because your code hasn't been deployed yet.
+Go to the CodeCommit repository that you just deployed using the module.
+Clone that repository, make your changes, and push them.
+This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes are pushed to the CodeCommit repository, eliminating the need for manual intervention.
 
 ## Questions?
 
 For any query email me at agujjar@mun.ca
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
