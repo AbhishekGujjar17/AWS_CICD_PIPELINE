@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Understanding DevOps and CI/CD</title>
+	<style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    section {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 0 20px;
+      text-align: justify;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+      margin: 20px auto;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+	<h1>Understanding DevOps and CI/CD</h1>
+</header>
+<section>
+	<!-- Replace content with GitHub readme -->
+	<h1>DevOps CI/CD Deployment Pipeline with AWS and Terraform</h1>
+	<img src="./img1.png" alt="Image related to DevOps and CI/CD">
+
+	<p>This project implements a full deployment devops pipeline on AWS using various services such as CodeCommit,
+		CodeBuild, CodeDeploy, CodePipeline, ECS (Elastic Container Service), ECR, Target Groups, Application Load
+		Balancer (ALB), and ECS Fargate. The pipeline automates the process of deploying code changes to an ECS Fargate
+		cluster with a CI/CD pipeline.</p>
+
+	<h2>Overview</h2>
+
+	<p>The deployment pipeline is comprised of the following stages:</p>
+
+	<ol>
+		<li><strong>CodeCommit</strong>: Developers push code changes to a CodeCommit repository.</li>
+		<li><strong>CodeBuild</strong>: CodeBuild automatically pulls the latest changes from the CodeCommit repository,
+			builds a container image, and stores it in Amazon ECR (Elastic Container Registry).</li>
+		<li><strong>CodePipeline</strong>: CodePipeline orchestrates the workflow, triggering builds on commit and
+			deploying the application.</li>
+		<li><strong>ECS Cluster Creation</strong>: CodePipeline, through the CodeDeploy stage, deploys the changes to the
+			container running within specified ECS Cluster.</li>
+		<li><strong>Target Groups and ALB</strong>: Target Groups and an Application Load Balancer are provisioned to
+			manage traffic to the ECS Fargate tasks.</li>
+	</ol>
+
+	<h2>Setup Instructions</h2>
+
+	<h3>Prerequisites</h3>
+
+	<ol>
+		<li><strong>AWS Account</strong>: You need an AWS account with appropriate permissions to create and manage
+			resources. Make sure you have configured your AWS credentials locally.</li>
+		<li><strong>Terraform Installed</strong>: Ensure Terraform is installed on your machine, and you can successfully
+			run Terraform commands.</li>
+		<li><strong>CodeCommit Credentials</strong>: You'll need IAM user credentials with permissions to push code to
+			CodeCommit repositories.
+			<ul>
+				<li>If you don't have an IAM user, create one.</li>
+				<li>Access the IAM service console, navigate to "Users," select the desired user, and choose "Security
+					credentials." </li>
+				<li>Scroll down and click "Generate credentials" under the Git credentials section. </li>
+				<li>These credentials will be required when you clone the repository from CodeCommit.</li>
+			</ul>
+		</li>
+	</ol>
+
+	<h3>Deployment Steps</h3>
+
+	<ol>
+		<li><strong>Clone the Repository</strong>: Clone this repository to your local machine.
+			<code>git clone https://github.com/AbhishekGujjar17/AWS_CICD_PIPELINE.git</code>
+		</li>
+		<li><strong>Terraform Commands</strong>: Navigate to the `terraform` directory and open the `main.tf` file.
+			Replace the `vpc_id` variable with the ID of your VPC, and then run the following Terraform commands one by one:
+			<pre><code>terraform init
+terraform plan
+terraform apply</code></pre>
+		</li>
+		<li><strong>Push Changes to Code Repository</strong>: After successfully deploying the module, you may encounter
+			errors in CodePipeline and ECS service when registering targets. Don't worry about these errors; they occur
+			because your code hasn't been deployed yet.
+			<ul>
+				<li>Go to the CodeCommit repository that you just deployed using the module.</li>
+				<li>Clone that repository, make your changes, and push them.</li>
+				<li>This will trigger a successful run of the CodePipeline. CodePipeline runs automatically whenever changes
+					are pushed to the CodeCommit repository, eliminating the need for manual intervention.</li>
+			</ul>
+		</li>
+		<li><strong>Accessing the Website</strong>: Once you've completed step 3 and utilized the code files available in
+			this repository, such as the `index.html`, `Dockerfile`, and `buildspec.yml`, you can access the website by
+			using the DNS of the ALB (Application Load Balancer). The website will appear as follows:</li>
+		<li><strong>Destroying Resources</strong>: If you've created this project solely for learning purposes and wish to
+			avoid any further costs on your AWS account, please execute the following Terraform command to destroy all the
+			resources created using the module:
+			<pre><code>terraform destroy</code></pre>
+		</li>
+	</ol>
+
+	<h2>Notes</h2>
+	<ul>
+		<li>This project is highly customizable to suit your specific project requirements. For instance, you can easily
+			replace steps within the CodePipeline or integrate GitHub instead of CodeCommit, among other possibilities.</li>
+		<li>Currently, the project utilizes public subnets and may grant broader permissions to resources than strictly
+			necessary. Depending on your project's needs or if deploying internally within an organization, consider
+			deploying only to private subnets and tightening permissions accordingly.</li>
+		<li>While this project isn't covered by the AWS free tier and may incur some costs, they typically range between
+			$1 to $2 if you create, test, and then promptly destroy the resources. However, leaving them running
+			continuously will result in a gradual increase in your bill.</li>
+	</ul>
+
+	<h2>Questions?</h2>
+
+	<p>For any query email me at agujjar@mun.ca</p>
+
+	<h2>License</h2>
+
+	<p>This project is licensed under the <a href="LICENSE">MIT License</a>.</p>
+
+	<a class="link" href="https://github.com/AbhishekGujjar17/AWS_CICD_PIPELINE" target="_blank">How I build this
+		project?</a>
+</section>
+</body>
+
+</html>
