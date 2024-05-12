@@ -67,6 +67,8 @@ The deployment pipeline is comprised of the following stages:
 
 - Currently, the project utilizes public subnets and may grant broader permissions to resources than strictly necessary. Depending on your project's needs or if deploying internally within an organization, consider deploying only to private subnets and tightening permissions accordingly.
 
+- While this project isn't covered by the AWS free tier and may incur some costs, they typically range between $1 to $2 if you create, test, and then promptly destroy the resources. However, leaving them running continuously will result in a gradual increase in your bill.
+
 
 ## Questions?
 
