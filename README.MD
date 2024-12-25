@@ -76,7 +76,7 @@ The deployment pipeline is comprised of the following stages:
 
 ## Questions?
 
-For any query email me at agujjar@mun.ca
+For any query email me at abhishekgujjar.info@gmail.com.
 
 ## License
 
